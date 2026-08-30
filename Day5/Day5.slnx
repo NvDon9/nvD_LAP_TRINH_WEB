@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Day5.AppHost/Day5.AppHost.csproj" />
+  <Project Path="Day5.ServiceDefaults/Day5.ServiceDefaults.csproj" />
+  <Project Path="Day5/Day5.csproj" />
+</Solution>
