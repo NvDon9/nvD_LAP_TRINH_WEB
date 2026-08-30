@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="nvDong_Day3.AppHost/nvDong_Day3.AppHost.csproj" />
+  <Project Path="nvDong_Day3.ServiceDefaults/nvDong_Day3.ServiceDefaults.csproj" />
+  <Project Path="nvDong_Day3/nvDong_Day3.csproj" />
+</Solution>
