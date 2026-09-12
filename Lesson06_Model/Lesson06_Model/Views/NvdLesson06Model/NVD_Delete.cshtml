@@ -1,0 +1,23 @@
+﻿@model Lesson06_Model.Models.NvdMember
+
+<h2>Xóa thành viên</h2>
+<hr />
+<h3>Bạn có chắc chắn muốn xóa thành viên này?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Username</dt>
+        <dd class="col-sm-10">@Model.NVD_UserName</dd>
+
+        <dt class="col-sm-2">Họ và tên</dt>
+        <dd class="col-sm-10">@Model.NVD_FullName</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.NVD_Email</dd>
+    </dl>
+
+    <form asp-action="NVD_Delete" method="post">
+        <input type="hidden" asp-for="NVD_MemberID" />
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a asp-action="NVD_GetMembers" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

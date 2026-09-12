@@ -1,8 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "my_layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<partial name="Banner" />
+
+<hr />
+<!-- Nút bấm -->
+<button id="loadAjax" class="btn btn-sm btn-primary">Click load book từ partialResult</button>
+<hr />
+<!-- Nội dung sẽ được load từ partial view vào đây -->
+<div id="data-from-ajax" class="row">Loading data....</div>
+<hr />
+
+<h2>popular Book Load tu BookComponent</h2>
+@await Component.InvokeAsync("Book")
+
+@section Scripts {
+    <script>
+        // gọi sự kiện click vào nút bấm có id ="loadAjax"
+        $('#loadAjax').click(function () {
+            // thông qua ajax load nội dung từ partial view vào id="data-from-ajax"
+            $('#data-from-ajax').load("/Book/PopularBook");
+        })
+    </script>
+}

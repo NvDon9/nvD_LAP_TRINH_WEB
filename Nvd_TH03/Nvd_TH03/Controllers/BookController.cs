@@ -38,5 +38,10 @@ namespace Nvd_TH03.Controllers
             Book model = book.GetBookById(id);   // lấy dữ liệu một cuốn sách theo id
             return View(model);
         }
+        public PartialViewResult PopularBook()
+        {
+            var books = book.GetBookList();
+            return PartialView(books);
+        }
     }
 }

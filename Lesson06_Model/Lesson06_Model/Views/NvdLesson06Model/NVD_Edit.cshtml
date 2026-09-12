@@ -1,0 +1,30 @@
+﻿@model Lesson06_Model.Models.NvdMember
+
+<h2>Chỉnh sửa thành viên</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="NVD_Edit" method="post">
+            <input type="hidden" asp-for="NVD_MemberID" />
+            <div class="form-group">
+                <label asp-for="NVD_UserName" class="control-label"></label>
+                <input asp-for="NVD_UserName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="NVD_FullName" class="control-label"></label>
+                <input asp-for="NVD_FullName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="NVD_Password" class="control-label"></label>
+                <input asp-for="NVD_Password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="NVD_Email" class="control-label"></label>
+                <input asp-for="NVD_Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cập nhật" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
