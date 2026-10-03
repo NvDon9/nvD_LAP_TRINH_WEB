@@ -1,0 +1,53 @@
+@model IEnumerable<NvdLesson07Annotation.Models.NvdMember>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NvdUserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NvdPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NvdEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NvdPhone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.NvdUserName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.NvdPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.NvdEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.NvdPhone)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
