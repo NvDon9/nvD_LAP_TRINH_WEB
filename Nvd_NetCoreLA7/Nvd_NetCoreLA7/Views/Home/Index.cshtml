@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/Nvd_Main.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="carouselDemo" class="carousel slide mt-3" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="d-flex align-items-center justify-content-center text-white"
+                 style="height:300px; background:#68217a;">
+                <h2>Visual Studio</h2>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-flex align-items-center justify-content-center text-white"
+                 style="height:300px; background:#0d6efd;">
+                <h2>ASP.NET Core MVC</h2>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselDemo" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselDemo" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <h4>Application uses</h4>
+        <ul>
+            <li>Sample pages using ASP.NET Core MVC</li>
+            <li>Theming using Bootstrap</li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h4>How to</h4>
+        <ul>
+            <li>Add a Controller and View</li>
+            <li>Use logging to log a message</li>
+            <li>Add packages using NuGet</li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h4>Overview</h4>
+        <ul>
+            <li>Conceptual overview of ASP.NET Core</li>
+            <li>Working with Data</li>
+            <li>Security</li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <h4>Run &amp; Deploy</h4>
+        <ul>
+            <li>Run your app</li>
+            <li>Publish to Microsoft Azure</li>
+        </ul>
+    </div>
+</div>

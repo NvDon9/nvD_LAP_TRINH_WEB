@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/LayoutHome.css" />
+      
+</head>
+<body>
+<header>
+        <a asp-action="Index" asp-controller="Books">Danh sách sản phẩm</a>
+        <a asp-action="Search" asp-controller="Books">Tìm kiếm sản phẩm </a>
+        <a asp-action="Index" asp-controller="Books">Danh sách sản phẩm</a>
+        <a asp-action="Intro" asp-controller="Books">Giới thiệu sản phẩm</a>
+
+    <div>
+        @RenderBody()
+    </div>
+    <div>
+            <p>Copyright By @@Đông</p>
+        </div>
+
+
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/LayoutHome.js"></script>
+
+</body>
+</html>

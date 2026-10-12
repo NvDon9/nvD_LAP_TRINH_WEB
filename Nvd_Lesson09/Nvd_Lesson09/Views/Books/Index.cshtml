@@ -1,0 +1,85 @@
+@model IEnumerable<Nvd_Lesson09.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_NvdLayoutHome.cshtml";
+}
+
+<div class="container-fluid mt-3">
+    <h1>Danh sách sách</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+
+    <table class="table table-bordered table-striped align-middle">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Author)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Release)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Picture)
+                </th>
+                <th>
+                    Loại sách
+                </th>
+                <th>
+                    Nhà xuất bản
+                </th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Release)
+                    </td>
+                    <td>
+                        @String.Format("{0:N0} đ", item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="text-center">
+                        @if (!string.IsNullOrEmpty(item.Picture))
+                        {
+                            <img src="~/@item.Picture" alt="@item.Title" style="max-width: 80px; height: auto;" class="img-thumbnail" />
+                        }
+                    </td>
+                    <td>
+                        @(item.Category != null ? item.Category.CategoryName : item.CategoryId.ToString())
+                    </td>
+                    <td>
+                        @(item.Publisher != null ? item.Publisher.PublisherName : item.PublisherId.ToString())
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.BookId" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.BookId" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.BookId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
