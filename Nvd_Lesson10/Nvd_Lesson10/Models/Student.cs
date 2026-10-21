@@ -1,0 +1,26 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Nvd_Lesson10.Models
+{
+    public class Student 
+    {
+       public int Id { get; set; }
+        
+        public string? name { get; set; }
+        public string? email { get; set; }
+        
+        public string? Password  { get; set; }
+    
+        public Branch? Branch { get; set; }
+        
+        public Gender? Gender { get; set; }
+
+        public bool IsRegular { get; set; }
+
+        public string? Address { get; set; }
+
+        public DateTime DateOfBorth { get; set; }
+
+
+    }
+}
