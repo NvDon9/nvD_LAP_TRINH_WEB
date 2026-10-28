@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Nvd_Lesson10.Data;
+
 namespace Nvd_Lesson10
 {
     public class Program
@@ -8,8 +11,15 @@ namespace Nvd_Lesson10
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<SchoolContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SchoolContext")));
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                DbInitializer.Initialize(scope.ServiceProvider);
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
