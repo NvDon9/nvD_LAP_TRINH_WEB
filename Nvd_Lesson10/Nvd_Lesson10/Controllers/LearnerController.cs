@@ -8,6 +8,7 @@ namespace Nvd_Lesson10.Controllers;
 
 public class LearnerController : Controller
 {
+    private const int PageSize = 3;
     private readonly SchoolContext _context;
 
     public LearnerController(SchoolContext context)
@@ -15,14 +16,48 @@ public class LearnerController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int? mid, string? keyword, int pageIndex = 1)
     {
-        var learners = await _context.Learners
-            .Include(learner => learner.Major)
-            .AsNoTracking()
+        var learners = GetFilteredLearners(mid, keyword);
+        var totalCount = await learners.CountAsync();
+        var pageCount = (int)Math.Ceiling(totalCount / (double)PageSize);
+        pageIndex = Math.Clamp(pageIndex, 1, Math.Max(pageCount, 1));
+
+        ViewBag.Majors = await _context.Majors.AsNoTracking().OrderBy(major => major.MajorName).ToListAsync();
+        ViewBag.MajorId = mid;
+        ViewBag.Keyword = keyword;
+        ViewBag.PageIndex = pageIndex;
+        ViewBag.PageCount = pageCount;
+        ViewBag.TotalCount = totalCount;
+
+        var page = await learners.OrderBy(learner => learner.LearnerID)
+            .Skip((pageIndex - 1) * PageSize)
+            .Take(PageSize)
             .ToListAsync();
 
-        return View(learners);
+        return View(page);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> LearnerFilter(int? mid, string? keyword, int? pageIndex)
+    {
+        var learners = GetFilteredLearners(mid, keyword);
+        var totalCount = await learners.CountAsync();
+        var pageCount = (int)Math.Ceiling(totalCount / (double)PageSize);
+        var page = Math.Clamp(pageIndex ?? 1, 1, Math.Max(pageCount, 1));
+
+        ViewBag.MajorId = mid;
+        ViewBag.Keyword = keyword;
+        ViewBag.PageIndex = page;
+        ViewBag.PageCount = pageCount;
+        ViewBag.TotalCount = totalCount;
+
+        var learnersOnPage = await learners.OrderBy(learner => learner.LearnerID)
+            .Skip((page - 1) * PageSize)
+            .Take(PageSize)
+            .ToListAsync();
+
+        return PartialView("_LearnerTable", learnersOnPage);
     }
 
     [HttpGet]
@@ -126,5 +161,24 @@ public class LearnerController : Controller
         ViewData["MajorID"] = new SelectList(
             await _context.Majors.AsNoTracking().OrderBy(major => major.MajorName).ToListAsync(),
             "MajorID", "MajorName", selectedMajor);
+    }
+
+    private IQueryable<Learner> GetFilteredLearners(int? majorId, string? keyword)
+    {
+        IQueryable<Learner> learners = _context.Learners
+            .Include(learner => learner.Major)
+            .AsNoTracking();
+
+        if (majorId.HasValue)
+            learners = learners.Where(learner => learner.MajorID == majorId.Value);
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var search = keyword.Trim();
+            learners = learners.Where(learner =>
+                learner.FirstMidName.Contains(search) || learner.LastName.Contains(search));
+        }
+
+        return learners;
     }
 }

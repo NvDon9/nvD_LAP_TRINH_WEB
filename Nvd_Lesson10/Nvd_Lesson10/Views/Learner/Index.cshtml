@@ -1,37 +1,98 @@
 @model IEnumerable<Nvd_Lesson10.Models.Learner>
 @{
     ViewData["Title"] = "Learner List";
+    Layout = "~/Views/Shared/MyLayoutHelper.cshtml";
 }
 
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Learner List</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Mã</th>
-                <th>Tên</th>
-                <th>Họ</th>
-                <th>Ngành</th>
-                <th>Ngày nhập học</th>
-                <th>Chức năng</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var learner in Model)
-        {
-            <tr>
-                <td>@learner.LearnerID</td>
-                <td>@learner.FirstMidName</td>
-                <td>@learner.LastName</td>
-                <td>@learner.Major?.MajorName</td>
-                <td>@learner.EnrollmentDate.ToShortDateString()</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@learner.LearnerID">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@learner.LearnerID">Delete</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-    <a asp-action="Create" class="btn btn-primary">Create New Learner</a>
+<div class="container-fluid px-4 py-3">
+    <h1 class="mt-2">Learner List</h1>
+
+    <nav aria-label="Filter learners by major">
+        <ul class="nav nav-pills mb-3" id="majorFilters">
+            <li class="nav-item">
+                <a class="nav-link @(ViewBag.MajorId == null ? "active" : "")" href="#" data-mid="">All majors</a>
+            </li>
+            @foreach (var major in (IEnumerable<Nvd_Lesson10.Models.Major>)ViewBag.Majors)
+            {
+                <li class="nav-item">
+                    <a class="nav-link @(ViewBag.MajorId == major.MajorID ? "active" : "")" href="#" data-mid="@major.MajorID">@major.MajorName</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <form id="learnerSearch" class="row g-2 mb-3" role="search">
+        <div class="col-sm-8 col-md-5 col-lg-4">
+            <label class="visually-hidden" for="keyword">Search learner</label>
+            <input id="keyword" name="keyword" type="search" class="form-control" value="@ViewBag.Keyword" placeholder="Search learner name" />
+        </div>
+        <div class="col-auto">
+            <button id="btnSearch" class="btn btn-primary" type="submit"><i class="fas fa-search" aria-hidden="true"></i><span class="visually-hidden">Search</span></button>
+        </div>
+    </form>
+
+    <div id="content" aria-live="polite">
+        <partial name="_LearnerTable" model="Model" />
+    </div>
+
+    <a asp-action="Create" class="btn btn-primary mt-3">Create New Learner</a>
 </div>
+
+@section Scripts {
+    <script>
+        (() => {
+            const content = document.getElementById('content');
+            const searchForm = document.getElementById('learnerSearch');
+            const keywordInput = document.getElementById('keyword');
+            let selectedMajor = '@(ViewBag.MajorId?.ToString() ?? "")';
+            let debounceTimer;
+
+            async function loadLearners(pageIndex = 1) {
+                const params = new URLSearchParams({ pageIndex });
+                if (selectedMajor) params.set('mid', selectedMajor);
+                if (keywordInput.value.trim()) params.set('keyword', keywordInput.value.trim());
+
+                content.setAttribute('aria-busy', 'true');
+                try {
+                    const response = await fetch('@Url.Action("LearnerFilter", "Learner")?' + params.toString(), {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    if (!response.ok) throw new Error('Unable to load learners.');
+                    content.innerHTML = await response.text();
+                    history.replaceState(null, '', '?' + params.toString());
+                } catch {
+                    content.innerHTML = '<div class="alert alert-danger" role="alert">Could not load learners. Please try again.</div>';
+                } finally {
+                    content.removeAttribute('aria-busy');
+                }
+            }
+
+            document.getElementById('majorFilters').addEventListener('click', event => {
+                const link = event.target.closest('a[data-mid]');
+                if (!link) return;
+                event.preventDefault();
+                selectedMajor = link.dataset.mid;
+                document.querySelectorAll('#majorFilters .nav-link').forEach(item => item.classList.remove('active'));
+                link.classList.add('active');
+                loadLearners(1);
+            });
+
+            searchForm.addEventListener('submit', event => {
+                event.preventDefault();
+                loadLearners(1);
+            });
+
+            keywordInput.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => loadLearners(1), 300);
+            });
+
+            content.addEventListener('click', event => {
+                const link = event.target.closest('a[data-page]');
+                if (!link) return;
+                event.preventDefault();
+                loadLearners(Number(link.dataset.page));
+            });
+        })();
+    </script>
+}

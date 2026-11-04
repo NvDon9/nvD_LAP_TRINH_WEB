@@ -1,0 +1,63 @@
+@model IEnumerable<Nvd_Lesson10.Models.Learner>
+@{
+    var pageIndex = (int)ViewBag.PageIndex;
+    var pageCount = (int)ViewBag.PageCount;
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">Mã</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Họ</th>
+                <th scope="col">Ngành</th>
+                <th scope="col">Ngày nhập học</th>
+                <th scope="col">Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var learner in Model)
+        {
+            <tr>
+                <td>@learner.LearnerID</td>
+                <td>@learner.FirstMidName</td>
+                <td>@learner.LastName</td>
+                <td>@learner.Major?.MajorName</td>
+                <td>@learner.EnrollmentDate.ToShortDateString()</td>
+                <td class="text-nowrap">
+                    <a asp-action="Edit" asp-route-id="@learner.LearnerID">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@learner.LearnerID">Delete</a>
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="6" class="text-center text-muted py-4">No learners match your search.</td></tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <small class="text-muted">Page @(pageCount == 0 ? 0 : pageIndex) of @pageCount · @ViewBag.TotalCount learner(s)</small>
+    @if (pageCount > 1)
+    {
+        <nav aria-label="Learner pages">
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item @(pageIndex <= 1 ? "disabled" : "")">
+                    <a class="page-link" href="#" data-page="@(pageIndex - 1)" aria-label="Previous page">&laquo;</a>
+                </li>
+                @for (var pageNumber = 1; pageNumber <= pageCount; pageNumber++)
+                {
+                    <li class="page-item @(pageNumber == pageIndex ? "active" : "")">
+                        <a class="page-link" href="#" data-page="@pageNumber" aria-current="@(pageNumber == pageIndex ? "page" : null)">@pageNumber</a>
+                    </li>
+                }
+                <li class="page-item @(pageIndex >= pageCount ? "disabled" : "")">
+                    <a class="page-link" href="#" data-page="@(pageIndex + 1)" aria-label="Next page">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
