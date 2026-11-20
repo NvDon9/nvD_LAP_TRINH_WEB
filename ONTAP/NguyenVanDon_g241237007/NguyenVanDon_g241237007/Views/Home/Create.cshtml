@@ -1,0 +1,45 @@
+﻿@model NguyenVanDon_g241237007.Models.HangHoa
+@{
+    Layout = "NguyenVanDong_Layout";
+}
+<div class="content">
+    <h3>Nguyen Van Dong</h3>
+    <h4>Them Hang Hoa moi</h4>
+    <hr/>
+        <form  asp-action="Create" method="post">
+        <div style="margin-bottom: 10px;">
+            <label asp-for="MaLoai"></label><br/>
+
+            <select asp-for="MaLoai" asp-items="ViewBag.MaLoai">
+               
+            </select>
+            <span asp-validation-for="MaLoai" style="color:red"></span>"
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label asp-for="TenHang"></label><br />
+
+            <input asp-for="TenHang" asp-items="ViewBag.MaLoai">
+            </input>
+            <span asp-validation-for="TenHang" style="color:red"></span>"
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label asp-for="Gia"></label><br />
+
+            <input asp-for="Gia" asp-items="ViewBag.MaLoai">
+            </input>
+            <span asp-validation-for="Gia" style="color:red"></span>"
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <label asp-for="Anh"></label><br />
+
+            <input asp-for="Anh" asp-items="ViewBag.MaLoai">
+            </input>
+            <span asp-validation-for="Anh" style="color:red"></span>"
+        </div>
+
+        <button type="submit">Create</button>
+        </form>
+
+</div>

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<NguyenVanDon_g241237007.Models.HangHoa>
+
+<partial name="NguyenVanDong_MainContent" />
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $(".menu-loai").click(function(e) {
+                var maLoai = $(this).data("id");
+                e.preventDefault();
+                $('.menu ul li').removeClass('active');
+                $(this).preven().addClass('Active');
+
+
+                $.ajax({
+                    url: "/Home/FilterByLoai",
+                    type: "GET",
+                    data: { loaihang: maLoai },
+                    success: function(result) {
+                        $("#products-list").html(result);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Loi tai du lieu')
+                    }
+                });
+            });
+        });
+    </script>
+}
+
