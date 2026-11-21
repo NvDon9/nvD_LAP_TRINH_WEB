@@ -1,0 +1,41 @@
+@model NguyenVanDong_24120707_Mau2026.Models.Sach
+
+<div class="section-head">
+    <h3>@ViewBag.SectionTitle - THÊM SÁCH MỚI</h3>
+</div>
+
+<form asp-action="Create" method="post" class="create-book-form">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="form-field">
+        <label asp-for="MaTl">MaTL</label>
+        <select asp-for="MaTl" asp-items="ViewBag.MaTl">
+            <option value="">-- Chọn thể loại --</option>
+        </select>
+        <span asp-validation-for="MaTl" class="validation-message"></span>
+    </div>
+
+    <div class="form-field">
+        <label asp-for="TenSach">TenSach</label>
+        <input asp-for="TenSach" />
+        <span asp-validation-for="TenSach" class="validation-message"></span>
+    </div>
+
+    <div class="form-field">
+        <label asp-for="Gia">Gia</label>
+        <input asp-for="Gia" type="number" min="50" max="1000" />
+        <span asp-validation-for="Gia" class="validation-message"></span>
+    </div>
+
+    <div class="form-field">
+        <label asp-for="Anh">Anh</label>
+        <input asp-for="Anh" />
+        <span asp-validation-for="Anh" class="validation-message"></span>
+    </div>
+
+    <button type="submit" class="btn-buy">Create</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

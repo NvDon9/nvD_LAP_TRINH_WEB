@@ -1,0 +1,58 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BookHub - Nhà sách trực tuyến</title>
+    <link href="~/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <!-- Begin Header -->
+ <partial name="NguyenVanDong_Header" />
+    <!-- End Header -->
+    <!-- Begin Main Content -->
+    <main class="main">
+        @RenderBody()
+    </main>
+    <!-- End Main Content -->
+    <!-- Begin Footer -->
+    <footer class="footer">
+        <partial name="NguyenVanDong_Footer" />
+      
+    </footer>
+    <!-- End Footer -->
+    <div class="to-top">&uarr;</div>
+    <script src="~/js/jquery.min.js"></script>
+   @* <script src="~/js/main.js"></script> *@
+
+    <script>
+            $(document).ready(function () {
+                $(document).on("click", ".category-link", function (e) {
+                    e.preventDefault();
+
+                    $(".menu li").removeClass("active");
+                    $(this).parent().addClass("active");
+
+                    var maTl = $(this).data("id");
+                    var tenTl = $(this).data("name");
+
+                    $.ajax({
+                        url: '/Home/GetBookByCategory',
+                        type: 'GET',
+                        data: { maTl: maTl, tenTl: tenTl },
+                        success: function (response) {
+                            $("#main-content-area").html(response);
+                        },
+                        error: function () {
+                            alert("Không tải được danh sách sách. Vui lòng thử lại.");
+                        }
+                    });
+                });
+            });
+    </script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

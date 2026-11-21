@@ -1,0 +1,15 @@
+﻿@model IEnumerable<NguyenVanDong_24120707_Mau2026.Models.TheLoai>
+
+<ul class="menu">
+    <li class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+        <a asp-controller="Home" asp-action="Index">NGUYỄN VĂN ĐÔNG</a>
+    </li>
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="javascript:void(0);" class="category-link" data-id="@item.MaTl" data-name="@item.TenTl">
+                @item.TenTl.ToUpper()
+            </a>
+        </li>
+    }
+</ul>
