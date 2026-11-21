@@ -1,0 +1,12 @@
+﻿@model IEnumerable<NguyenVanDong_241230707_Day15_01.Models.TaiSan>
+@foreach (var item in Model)
+{
+    <div class="asset-card">
+        <a href="#"><img src="~/images/@item.Anh" alt="@item.TenTs" /></a>  
+<h2>@item.TenTs </h2>
+    <div class="asset-foot">
+        <span class="price">@(item.NguyenGia != null ? item.NguyenGia + " tr" : "Chua dinh gia")</span>
+        <button class="btn-buy">Chi tiết</button>
+    </div>
+    </div>
+}

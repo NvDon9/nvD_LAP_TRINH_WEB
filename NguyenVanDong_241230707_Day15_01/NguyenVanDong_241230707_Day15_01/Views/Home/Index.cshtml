@@ -1,0 +1,21 @@
+﻿@model IEnumerable<NguyenVanDong_241230707_Day15_01.Models.TaiSan>
+<div class="section-head">
+    <!-- Phải có id="section-title" -->
+    <h3 id="section-title">@ViewBag.TieuDe</h3>
+    <a asp-controller="Home" asp-action="Create">+ Thêm tài sản mới</a>
+</div>
+<div class="grid" id="asset-grid">
+    @foreach (var item in Model)
+    {
+        <div class="asset-card">
+            <a href="#"><img src="~/images/@item.Anh" alt="@item.TenTs" /></a>
+            <h2>@item.TenTs</h2>
+            <div class="asset-foot">
+                <span class="price">@(item.NguyenGia != null ? item.NguyenGia + " tr" : "Chua dinh gia")</span>
+                <button class="btn-buy">Chi tiết</button>
+            </div>
+        </div>
+    }
+
+
+</div>
